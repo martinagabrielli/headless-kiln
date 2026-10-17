@@ -154,3 +154,26 @@ add_action('template_redirect', function () {
         exit;
     }
 }, 1);
+
+/**
+ * Say which frontend settings are missing, so a preview that silently falls
+ * back to the published page has an obvious cause.
+ */
+add_action('admin_notices', function () {
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+    $missing = array_filter(
+        ['KILN_FRONTEND_URL', 'KILN_REVALIDATION_SECRET', 'KILN_PREVIEW_SECRET', 'KILN_ENQUIRY_SECRET'],
+        fn ($name) => !defined($name) || constant($name) === ''
+    );
+    if (!$missing) {
+        return;
+    }
+    printf(
+        '<div class="notice notice-warning"><p><strong>Kiln Core:</strong> %s missing from wp-config.php. '
+        . 'Previews, publishing updates or the contact form won\'t reach the Next.js site until %s added.</p></div>',
+        esc_html(implode(', ', $missing)),
+        count($missing) === 1 ? 'it is' : 'they are'
+    );
+});
