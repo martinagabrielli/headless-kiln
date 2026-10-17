@@ -108,10 +108,12 @@ add_action('wp_update_nav_menu', fn () => kiln_revalidate(['*']));
  * its history. Next.js checks the signature and expiry, then fetches the latest
  * revision with an application password.
  */
-add_filter('preview_post_link', function (string $link, WP_Post $post) {
+/** Signed link into the Next.js draft view, or null if previews aren't configured. */
+function kiln_preview_url(WP_Post $post): ?string
+{
     $url = kiln_frontend_url();
     if (!$url || !defined('KILN_PREVIEW_SECRET') || !in_array($post->post_type, ['page', 'workshop'], true)) {
-        return $link;
+        return null;
     }
     $expires = time() + 10 * MINUTE_IN_SECONDS;
     $token   = hash_hmac('sha256', $post->ID . ':' . $expires, KILN_PREVIEW_SECRET);
@@ -121,4 +123,34 @@ add_filter('preview_post_link', function (string $link, WP_Post $post) {
         'expires' => $expires,
         'token'   => $token,
     ], $url . '/api/draft/');
+}
+
+add_filter('preview_post_link', function (string $link, WP_Post $post) {
+    return kiln_preview_url($post) ?? $link;
 }, 10, 2);
+
+/**
+ * Catch previews that reach WordPress anyway.
+ *
+ * The block editor doesn't always use the filtered link above: it can open
+ * WordPress's own preview URL (?preview=true&preview_id=21). Those requests
+ * land here and are sent on to the Next.js draft view for the right post.
+ */
+add_action('template_redirect', function () {
+    if (empty($_GET['preview'])) {
+        return;
+    }
+    $id = absint($_GET['preview_id'] ?? $_GET['page_id'] ?? $_GET['p'] ?? 0);
+    if (!$id && is_singular()) {
+        $id = get_queried_object_id();
+    }
+    $post = $id ? get_post($id) : null;
+    if (!$post || !current_user_can('edit_post', $post->ID)) {
+        return;
+    }
+    $url = kiln_preview_url($post);
+    if ($url) {
+        wp_redirect($url, 302);
+        exit;
+    }
+}, 1);

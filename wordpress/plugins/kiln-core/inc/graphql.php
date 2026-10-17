@@ -130,26 +130,23 @@ function kiln_resolve_blocks(array $blocks): array
 }
 
 /**
- * The post whose content a GraphQL node shows.
+ * The newest version of a post's content, for previews: the post itself, its
+ * latest autosave (made when an editor clicks Preview without saving) or its
+ * latest revision, whichever was modified last.
  *
- * For a preview (asPreview: true) WPGraphQL can report the published post's ID,
- * so pick the newest autosave or revision explicitly; otherwise a preview would
- * show the published content instead of the draft.
+ * Autosaves are looked up for any user, because the account Next.js uses for
+ * previews is usually not the editor who made the change.
  */
-function kiln_content_post($node): ?WP_Post
+function kiln_preview_source(WP_Post $post): WP_Post
 {
-    $post = get_post($node->databaseId ?? 0);
-    if (!$post || empty($node->isPreview) || $post->post_type === 'revision') {
-        return $post ?: null;
-    }
-
     $candidates = array_filter([
-        wp_get_post_autosave($post->ID, get_current_user_id()) ?: null,
+        $post,
+        wp_get_post_autosave($post->ID) ?: null,
         ...array_values(wp_get_post_revisions($post->ID, ['numberposts' => 1])),
     ]);
     usort($candidates, fn ($a, $b) => strcmp($b->post_modified_gmt, $a->post_modified_gmt));
 
-    return $candidates[0] ?? $post;
+    return $candidates[0];
 }
 
 function kiln_level_label(?string $level): ?string
@@ -174,8 +171,43 @@ add_action('graphql_register_types', function () {
         'type'        => ['list_of' => 'KilnBlock'],
         'description' => 'The content as resolved blocks.',
         'resolve'     => function ($node) {
-            $post = kiln_content_post($node);
+            $post = get_post($node->databaseId ?? 0);
             return $post ? kiln_resolve_blocks(parse_blocks($post->post_content)) : [];
+        },
+    ]);
+
+    /*
+     * Previews get their own field rather than WPGraphQL's asPreview argument,
+     * which returns nothing for pages that only have an autosave. Only users
+     * who can edit the post can read it.
+     */
+    register_graphql_object_type('KilnPreview', [
+        'description' => 'The newest unpublished version of a page or workshop.',
+        'fields'      => [
+            'databaseId'  => ['type' => ['non_null' => 'Int']],
+            'contentType' => ['type' => ['non_null' => 'String'], 'description' => 'page or workshop.'],
+            'uri'         => ['type' => 'String'],
+            'title'       => ['type' => 'String'],
+            'blocks'      => ['type' => ['list_of' => 'KilnBlock']],
+        ],
+    ]);
+
+    register_graphql_field('RootQuery', 'kilnPreview', [
+        'type'    => 'KilnPreview',
+        'args'    => ['id' => ['type' => ['non_null' => 'Int']]],
+        'resolve' => function ($root, array $args) {
+            $post = get_post($args['id']);
+            if (!$post || !in_array($post->post_type, ['page', 'workshop'], true) || !current_user_can('edit_post', $post->ID)) {
+                return null;
+            }
+            $source = kiln_preview_source($post);
+            return [
+                'databaseId'  => $post->ID,
+                'contentType' => $post->post_type,
+                'uri'         => kiln_post_path($post->ID),
+                'title'       => $source->post_title,
+                'blocks'      => kiln_resolve_blocks(parse_blocks($source->post_content)),
+            ];
         },
     ]);
 

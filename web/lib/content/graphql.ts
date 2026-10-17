@@ -162,13 +162,40 @@ const NODE_BY_URI = /* GraphQL */ `
   ${FRAGMENTS}
 `;
 
+/**
+ * Previews read kilnPreview (see kiln-core/inc/graphql.php), which returns the
+ * newest autosave or revision. WPGraphQL's own asPreview argument returns
+ * nothing for pages that only have an autosave, so it isn't used.
+ */
 const PREVIEW_NODE = /* GraphQL */ `
-  query PreviewNode($id: ID!) {
-    contentNode(id: $id, idType: DATABASE_ID, asPreview: true) {
-      ...NodeFields
+  query PreviewNode($id: Int!, $workshopId: ID!, $isWorkshop: Boolean!) {
+    kilnPreview(id: $id) {
+      databaseId
+      contentType
+      uri
+      title
+      blocks {
+        ...BlockFields
+        innerBlocks {
+          ...BlockFields
+        }
+      }
+    }
+    workshop(id: $workshopId, idType: DATABASE_ID) @include(if: $isWorkshop) {
+      ...WorkshopSummary
     }
   }
-  ${FRAGMENTS}
+  ${BLOCK_FIELDS}
+  ${IMAGE_FIELDS}
+  ${WORKSHOP_SUMMARY}
+`;
+
+const PREVIEW_TYPE = /* GraphQL */ `
+  query PreviewType($id: Int!) {
+    kilnPreview(id: $id) {
+      contentType
+    }
+  }
 `;
 
 const ALL_URIS = /* GraphQL */ `
@@ -329,12 +356,36 @@ export const graphqlSource: ContentSource = {
   },
 
   async getPreviewNode(id) {
-    const data = await fetchGraphQL<{ contentNode: RawNode | null }>(
-      PREVIEW_NODE,
-      { id: String(id) },
+    // Workshops need their details too, so find out the type first.
+    const type = await fetchGraphQL<{ kilnPreview: { contentType: string } | null }>(
+      PREVIEW_TYPE,
+      { id },
       { preview: true },
     );
-    return mapNode(data.contentNode);
+    if (!type.kilnPreview) return null;
+    const isWorkshop = type.kilnPreview.contentType === "workshop";
+
+    const data = await fetchGraphQL<{
+      kilnPreview: { databaseId: number; contentType: string; uri: string | null; title: string | null; blocks: RawBlock[] | null } | null;
+      workshop?: RawWorkshopSummary | null;
+    }>(PREVIEW_NODE, { id, workshopId: String(id), isWorkshop }, { preview: true });
+
+    const preview = data.kilnPreview;
+    if (!preview) return null;
+
+    const base = {
+      id: preview.databaseId,
+      uri: normalizeUri(preview.uri ?? "/"),
+      title: preview.title ?? "",
+      seo: { title: null, description: null },
+      blocks: (preview.blocks ?? []).map(mapBlock),
+    };
+    if (isWorkshop && data.workshop) {
+      // Title and blocks come from the draft; details are read from the post itself.
+      const workshop = mapWorkshopSummary(data.workshop);
+      return { ...base, kind: "workshop", workshop: { ...workshop, title: base.title || workshop.title } };
+    }
+    return { ...base, kind: "page" };
   },
 
   async getAllUris() {
