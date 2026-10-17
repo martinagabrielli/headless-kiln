@@ -140,16 +140,31 @@ add_action('template_redirect', function () {
     if (empty($_GET['preview'])) {
         return;
     }
+
+    // This request is a preview, so WordPress must not canonicalise it.
+    // redirect_canonical() runs later on this same hook, drops ?preview=true
+    // because it isn't part of the canonical URL, and answers 301 Moved
+    // Permanently. Browsers cache that for good, so after one such answer the
+    // Preview button stops reaching WordPress at all: the browser goes straight
+    // to the canonical URL, the theme forwards it to the frontend, and the
+    // editor lands on the published page. It also redirects before any template
+    // loads, which is why the theme's explanation never appears.
+    remove_action('template_redirect', 'redirect_canonical');
+
     $id = absint($_GET['preview_id'] ?? $_GET['page_id'] ?? $_GET['p'] ?? 0);
     if (!$id && is_singular()) {
         $id = get_queried_object_id();
     }
     $post = $id ? get_post($id) : null;
     if (!$post || !current_user_can('edit_post', $post->ID)) {
+        // Fall through to the theme, which says what went wrong.
         return;
     }
     $url = kiln_preview_url($post);
     if ($url) {
+        // The link expires in ten minutes, so this redirect must not be cached
+        // either: a cached one would keep handing out a dead token.
+        nocache_headers();
         wp_redirect($url, 302);
         exit;
     }
