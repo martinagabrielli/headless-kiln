@@ -39,6 +39,24 @@ flowchart LR
 3. **Pages are static until something changes.** When an editor publishes, the plugin tells `/api/revalidate` exactly which paths to rebuild: the page itself, plus the listing pages for a workshop.
 4. **Previews show drafts.** WordPress's Preview button opens `/preview/` with a short-lived signed link. Next.js checks the signature on every request and fetches the newest unsaved version through the plugin's `kilnPreview` field, with an application password. There's no preview cookie or session, so a preview works on plain `http://localhost` and stops working when its link expires.
 
+## Behind the scenes
+
+**Editors pick from the site's own blocks.** The inserter shows only the Kiln Studio blocks, so every page stays within the design system. SEO title and description sit in the sidebar.
+
+![The block inserter showing the ten Kiln Studio blocks](docs/editor-inserter.png)
+
+**Each block has plain fields.** Testimonials, for example, is a heading and a list of quotes; editors never touch markup.
+
+![The Testimonials block open in the editor, with its repeater fields](docs/editor-block.png)
+
+**The frontend gets clean data.** The `kilnBlocks` GraphQL field returns each block's fields already resolved: images with their URL, size and alt text, links made relative, lists as arrays.
+
+![A GraphQL query for the home page's blocks and its resolved result](docs/graphql.png)
+
+**Previews show unsaved changes.** Left, the editor with an unsaved autosave; right, the Next.js preview showing the edited heading under the preview banner.
+
+![The WordPress editor beside the Next.js preview of an unsaved edit](docs/preview.png)
+
 ## Decisions I made
 
 **Fields are resolved in WordPress, not in the frontend.**
