@@ -80,6 +80,13 @@ test("unknown pages show a helpful 404", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("This page isn't here");
 });
 
+test("a broken preview link explains itself instead of redirecting home", async ({ page }) => {
+  await page.goto("/api/draft/?id=1&expires=1&token=nope");
+  await expect(page).toHaveURL(/\/preview\//);
+  // This build has no PREVIEW_SECRET, so the page says previews aren't set up.
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Previews aren't set up");
+});
+
 test("the revalidation webhook rejects a wrong secret", async ({ request }) => {
   const response = await request.post("/api/revalidate/", {
     headers: { Authorization: "Bearer wrong" },

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { draftMode } from "next/headers";
 import type { ReactNode } from "react";
-import { PreviewBanner } from "@/components/layout/PreviewBanner";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getMenu, getSiteSettings } from "@/lib/content";
@@ -34,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const [{ settings, menu }, draft] = await Promise.all([loadShell(), draftMode()]);
+  const { settings, menu } = await loadShell();
 
   return (
     <html lang="en-GB" className={`${youngSerif.variable} ${instrumentSans.variable}`}>
@@ -45,7 +43,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         >
           Skip to content
         </a>
-        {draft.isEnabled && <PreviewBanner />}
         <SiteHeader title={settings.title} menu={menu} />
         <main id="main" className="flex-1">
           {children}

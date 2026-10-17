@@ -1,4 +1,4 @@
-/** Shown on every page while draft mode is on, so editors know what they're seeing. */
+/** Shown on previews, so editors know they're looking at unpublished changes. */
 export function PreviewBanner() {
   return (
     <div role="status" className="bg-iron px-5 py-3 text-center text-sm text-porcelain">

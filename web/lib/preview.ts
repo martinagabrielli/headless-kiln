@@ -1,7 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
-export const PREVIEW_COOKIE = "kiln_preview_id";
-
 /**
  * Check a signed preview link from WordPress.
  *

@@ -37,7 +37,7 @@ flowchart LR
 1. **One route for every page.** `app/[[...slug]]/page.tsx` asks WordPress what lives at the requested path (`nodeByUri`). WordPress owns the URL structure, so a new page or a changed slug needs no frontend change.
 2. **Blocks map to components.** Each block arrives with its fields already resolved. `components/blocks/registry.ts` maps the block name (`acf/hero`) to a typed React component.
 3. **Pages are static until something changes.** When an editor publishes, the plugin tells `/api/revalidate` exactly which paths to rebuild: the page itself, plus the listing pages for a workshop.
-4. **Previews show drafts.** WordPress's Preview button opens `/api/draft` with a short-lived signed link. Next.js checks the signature, switches on draft mode, and fetches the latest revision with an application password.
+4. **Previews show drafts.** WordPress's Preview button opens `/preview/` with a short-lived signed link. Next.js checks the signature on every request and fetches the newest unsaved version through the plugin's `kilnPreview` field, with an application password. There's no preview cookie or session, so a preview works on plain `http://localhost` and stops working when its link expires.
 
 ## Decisions I made
 
@@ -57,7 +57,7 @@ The theme only redirects visitors to the frontend. Switching themes can't take t
 With no `GRAPHQL_ENDPOINT`, the app reads `web/content/kiln-studio.json` through the same interface. That's how CI builds and tests the site, and how the public demo can be hosted for free. The WordPress seed script imports the same file, so both modes show identical content.
 
 **Secrets never travel in URLs.**
-Revalidation uses a bearer token, compared in constant time. Preview links carry an HMAC of the post ID and an expiry, never the secret itself. WordPress reads all secrets from `wp-config.php` constants, so they're never in git or the database.
+Revalidation uses a bearer token, compared in constant time. Preview links carry an HMAC of the post ID and an expiry, never the secret itself, and are checked on every request rather than trusted through a cookie. WordPress reads all secrets from `wp-config.php` constants, so they're never in git or the database.
 
 **The contact form is a server action.**
 It validates input, rate-limits per address, uses a honeypot instead of a CAPTCHA, and forwards to a WordPress REST endpoint. WordPress saves each enquiry as a private post before emailing it, so nothing is lost if mail fails. Next.js checks server actions come from the site's own origin.
