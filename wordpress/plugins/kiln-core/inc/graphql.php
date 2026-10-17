@@ -196,9 +196,19 @@ add_action('graphql_register_types', function () {
         'type'    => 'KilnPreview',
         'args'    => ['id' => ['type' => ['non_null' => 'Int']]],
         'resolve' => function ($root, array $args) {
+            // Each refusal says why, so a failed preview can be diagnosed from the error.
             $post = get_post($args['id']);
-            if (!$post || !in_array($post->post_type, ['page', 'workshop'], true) || !current_user_can('edit_post', $post->ID)) {
-                return null;
+            if (!$post) {
+                throw new \GraphQL\Error\UserError("No post with ID {$args['id']}.");
+            }
+            if (!in_array($post->post_type, ['page', 'workshop'], true)) {
+                throw new \GraphQL\Error\UserError("Post {$post->ID} is a \"{$post->post_type}\"; only pages and workshops can be previewed.");
+            }
+            if (!is_user_logged_in()) {
+                throw new \GraphQL\Error\UserError('Previews need a logged-in user. Next.js sends WP_PREVIEW_USER and WP_PREVIEW_PASSWORD; in GraphiQL, run the query as the authenticated user.');
+            }
+            if (!current_user_can('edit_post', $post->ID)) {
+                throw new \GraphQL\Error\UserError('The logged-in user (' . wp_get_current_user()->user_login . ") can't edit post {$post->ID}.");
             }
             $source = kiln_preview_source($post);
             return [

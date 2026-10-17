@@ -23,7 +23,18 @@ export default async function PreviewPage() {
     redirect("/");
   }
 
-  const node = await getPreviewNode(id);
+  let node;
+  try {
+    node = await getPreviewNode(id);
+  } catch (error) {
+    // WordPress explains refused previews (see kilnPreview in kiln-core); show the reason.
+    return (
+      <div className="mx-auto max-w-2xl px-5 py-24">
+        <h1 className="text-headline">This preview couldn&apos;t load</h1>
+        <p className="mt-4 text-iron-soft">WordPress said: {error instanceof Error ? error.message : String(error)}</p>
+      </div>
+    );
+  }
   if (!node) {
     return (
       <div className="mx-auto max-w-2xl px-5 py-24">
