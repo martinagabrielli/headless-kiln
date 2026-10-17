@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "acf/contact-form",
+    "title": "Contact Form",
+    "description": "The enquiry form.",
+    "category": "kiln",
+    "icon": "email",
+    "keywords": [
+        "form",
+        "enquiry",
+        "contact"
+    ],
+    "acf": {
+        "blockVersion": 3,
+        "mode": "preview",
+        "renderCallback": "kiln_render_block_preview"
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "anchor": true
+    }
+}

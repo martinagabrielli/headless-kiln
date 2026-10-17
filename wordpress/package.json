@@ -1,0 +1,17 @@
+{
+  "name": "headless-kiln-wordpress",
+  "private": true,
+  "description": "Local WordPress for headless-kiln, run with @wordpress/env (needs Docker).",
+  "scripts": {
+    "start": "wp-env start",
+    "stop": "wp-env stop",
+    "setup": "wp-env start && npm run activate && npm run seed",
+    "activate": "wp-env run cli wp theme activate kiln-headless",
+    "seed": "wp-env run cli wp eval-file wp-content/kiln-seed/seed.php",
+    "check": "php seed/check-content.php",
+    "destroy": "wp-env destroy"
+  },
+  "devDependencies": {
+    "@wordpress/env": "^11.17.0"
+  }
+}

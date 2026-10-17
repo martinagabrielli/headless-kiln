@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "acf/cta",
+    "title": "Call to Action",
+    "description": "A short prompt with one link.",
+    "category": "kiln",
+    "icon": "megaphone",
+    "keywords": [
+        "button",
+        "call to action"
+    ],
+    "acf": {
+        "blockVersion": 3,
+        "mode": "preview",
+        "renderCallback": "kiln_render_block_preview"
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "anchor": true
+    }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/wp-env.json",
+  "core": null,
+  "phpVersion": "8.3",
+  "port": 8888,
+  "testsPort": 8889,
+  "plugins": [
+    "https://downloads.wordpress.org/plugin/wp-graphql.latest-stable.zip",
+    "https://downloads.wordpress.org/plugin/secure-custom-fields.latest-stable.zip",
+    "./plugins/kiln-core"
+  ],
+  "themes": ["./themes/kiln-headless"],
+  "mappings": {
+    "wp-content/kiln-seed": "./seed",
+    "wp-content/kiln-content": "../web/content",
+    "wp-content/kiln-images": "../web/public/demo"
+  },
+  "config": {
+    "KILN_FRONTEND_URL": "http://localhost:3000",
+    "KILN_REVALIDATION_SECRET": "local-revalidation-secret",
+    "KILN_PREVIEW_SECRET": "local-preview-secret",
+    "KILN_ENQUIRY_SECRET": "local-enquiry-secret",
+    "GRAPHQL_DEBUG": true
+  }
+}

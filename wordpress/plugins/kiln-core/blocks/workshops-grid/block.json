@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "acf/workshops-grid",
+    "title": "Workshops List",
+    "description": "Lists published workshops.",
+    "category": "kiln",
+    "icon": "list-view",
+    "keywords": [
+        "workshops",
+        "classes",
+        "list"
+    ],
+    "acf": {
+        "blockVersion": 3,
+        "mode": "preview",
+        "renderCallback": "kiln_render_block_preview"
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "anchor": true
+    }
+}

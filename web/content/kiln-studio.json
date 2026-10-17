@@ -1,0 +1,348 @@
+{
+  "site": {
+    "title": "Kiln Studio",
+    "description": "Pottery workshops on the wheel and by hand in Bristol. Small classes, all clay and firing included."
+  },
+  "settings": {
+    "address": "Unit 4, Wharf Lane\nBristol BS1 4XX",
+    "email": "hello@kilnstudio.example",
+    "phone": "0117 496 0000",
+    "openingHours": "Tuesday to Friday, 10am–9pm\nSaturday, 10am–5pm\nSunday and Monday, closed"
+  },
+  "menu": [
+    { "label": "Workshops", "uri": "/workshops/" },
+    { "label": "About", "uri": "/about/" },
+    { "label": "Visit", "uri": "/visit/" }
+  ],
+  "images": {
+    "shelf": { "file": "shelf.webp", "alt": "Five glazed stoneware vessels standing on a kiln shelf", "width": 1600, "height": 1100 },
+    "kiln": { "file": "kiln.webp", "alt": "Bowls stacked inside an open kiln, ready for firing", "width": 1200, "height": 1500 },
+    "wheel": { "file": "wheel.webp", "alt": "A freshly thrown bowl on a potter's wheel", "width": 1200, "height": 900 },
+    "coil": { "file": "coil.webp", "alt": "A coil-built pot with visible coils on the outside", "width": 1200, "height": 900 },
+    "glaze": { "file": "glaze.webp", "alt": "A vase with a blue glaze running down over a pale base", "width": 1200, "height": 900 },
+    "taster": { "file": "taster.webp", "alt": "Three small pinch pots in a row", "width": 1200, "height": 900 },
+    "studio": { "file": "studio.webp", "alt": "Shelves of bisque-fired pots waiting to be glazed", "width": 1200, "height": 1500 },
+    "gallery-1": { "file": "gallery-1.webp", "alt": "A tall bottle with a speckled oatmeal glaze", "width": 1000, "height": 1000 },
+    "gallery-2": { "file": "gallery-2.webp", "alt": "A wide shallow bowl in deep cobalt blue", "width": 1000, "height": 1000 },
+    "gallery-3": { "file": "gallery-3.webp", "alt": "A pair of mugs with dipped glaze lines", "width": 1000, "height": 1000 },
+    "gallery-4": { "file": "gallery-4.webp", "alt": "A round moon jar in a pale celadon glaze", "width": 1000, "height": 1000 }
+  },
+  "pages": [
+    {
+      "uri": "/",
+      "slug": "home",
+      "title": "Home",
+      "seo": {
+        "title": "Kiln Studio | Pottery workshops in Bristol",
+        "description": "Learn to throw and handbuild with working potters. Small classes, all clay, glazes and firing included."
+      },
+      "blocks": [
+        {
+          "name": "acf/hero",
+          "fields": {
+            "eyebrow": "Pottery workshops in Bristol",
+            "heading": "Learn to make pots you'll use every day.",
+            "text": "Small classes on the wheel and by hand, taught by working potters. Everything you make is glazed and fired here, in our own kilns.",
+            "image": "shelf",
+            "primaryLink": { "title": "See workshops", "url": "/workshops/" },
+            "secondaryLink": { "title": "Visit the studio", "url": "/visit/" }
+          }
+        },
+        {
+          "name": "acf/workshops-grid",
+          "fields": {
+            "heading": "This season's workshops",
+            "intro": "Six-week courses and one-day sessions. Clay, tools, glazes and firing are all included in the price.",
+            "limit": 4
+          }
+        },
+        {
+          "name": "acf/text-image",
+          "fields": {
+            "heading": "Fired here, every week",
+            "text": "<p>Our two kilns run every Wednesday and Saturday. Your pots go in for a first bisque firing, come back to you for glazing, then go in again for the glaze firing.</p><p>From the day you make a pot to the day you take it home is usually three weeks.</p>",
+            "image": "kiln",
+            "imagePosition": "right",
+            "link": { "title": "About the studio", "url": "/about/" }
+          }
+        },
+        {
+          "name": "acf/testimonials",
+          "fields": {
+            "heading": "From our students",
+            "items": [
+              {
+                "quote": "I'd never touched clay before. By week six I had a set of bowls I actually eat from.",
+                "name": "Priya",
+                "detail": "Wheel throwing for beginners"
+              },
+              {
+                "quote": "The teachers let you make mistakes and then show you exactly why the pot collapsed.",
+                "name": "Tom",
+                "detail": "Handbuilding: coil and slab"
+              },
+              {
+                "quote": "Glaze day was the best Saturday I've had in months. I left with pages of notes and three test tiles I love.",
+                "name": "Helen",
+                "detail": "Glazing and surface"
+              }
+            ]
+          }
+        },
+        {
+          "name": "acf/cta",
+          "fields": {
+            "heading": "Not sure where to start?",
+            "text": "Book a two-hour taster. If you enjoy it, we take the price off any six-week course.",
+            "link": { "title": "Book a taster", "url": "/workshops/taster-session/" }
+          }
+        }
+      ]
+    },
+    {
+      "uri": "/workshops/",
+      "slug": "workshops",
+      "title": "Workshops",
+      "seo": {
+        "title": "Workshops",
+        "description": "Six-week pottery courses and one-day sessions on the wheel, by hand and in glazing."
+      },
+      "blocks": [
+        {
+          "name": "acf/page-header",
+          "fields": {
+            "heading": "Workshops",
+            "intro": "Classes have eight places at most, so there's always a teacher nearby when the clay goes wrong. Choose a level that matches where you are now."
+          }
+        },
+        {
+          "name": "acf/workshops-grid",
+          "fields": {
+            "heading": null,
+            "intro": null,
+            "limit": null
+          }
+        },
+        {
+          "name": "acf/faq",
+          "fields": {
+            "heading": "Before you book",
+            "items": [
+              {
+                "question": "Do I need any experience?",
+                "answer": "<p>No. Courses marked Beginner start from the very first lump of clay. If you've made pots before and want to improve, choose an Intermediate course.</p>"
+              },
+              {
+                "question": "What should I wear?",
+                "answer": "<p>Clothes you don't mind getting muddy, and short nails if you're throwing on the wheel. We provide aprons and towels.</p>"
+              },
+              {
+                "question": "Can I take my pots home on the last day?",
+                "answer": "<p>Pots need two firings, so the last pieces are ready about two weeks after the course ends. We'll email you when they're out of the kiln.</p>"
+              },
+              {
+                "question": "What if I miss a session?",
+                "answer": "<p>Let us know and you can join the same session in another course that week, if there's a free place.</p>"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "uri": "/about/",
+      "slug": "about",
+      "title": "About",
+      "seo": {
+        "title": "About the studio",
+        "description": "Kiln Studio is a shared workshop for potters in Bristol, with two kilns, eight wheels and room to learn."
+      },
+      "blocks": [
+        {
+          "name": "acf/page-header",
+          "fields": {
+            "heading": "A working studio that teaches",
+            "intro": "Kiln Studio started in 2019 as a shared workshop for four potters. We began teaching when friends kept asking to have a go, and we still make and sell our own work in the same room where classes happen."
+          }
+        },
+        {
+          "name": "acf/text-image",
+          "fields": {
+            "heading": "The room",
+            "text": "<p>We have eight wheels, two large tables for handbuilding, a glaze kitchen with twenty tested glazes, and two electric kilns.</p><p>Between classes, members rent shelf space and kiln time to work on their own pieces.</p>",
+            "image": "studio",
+            "imagePosition": "left",
+            "link": null
+          }
+        },
+        {
+          "name": "acf/rich-text",
+          "fields": {
+            "heading": "How we teach",
+            "content": "<p>Every class starts with a short demonstration, then most of the time is yours at the wheel or the table. We'd rather you make ten wobbly bowls than watch one perfect one.</p><p>We use one stoneware clay body and a small set of glazes that we know well, so what you see on the test tiles is what you'll get from the kiln.</p>"
+          }
+        },
+        {
+          "name": "acf/gallery",
+          "fields": {
+            "heading": "Recent work by our students",
+            "items": [
+              { "image": "gallery-1", "caption": "Bottle, oatmeal glaze" },
+              { "image": "gallery-2", "caption": "Serving bowl, cobalt" },
+              { "image": "gallery-3", "caption": "Mugs, dipped in two glazes" },
+              { "image": "gallery-4", "caption": "Moon jar, celadon" }
+            ]
+          }
+        },
+        {
+          "name": "acf/cta",
+          "fields": {
+            "heading": "Come and see the studio",
+            "text": "We're open for visits whenever there isn't a class on. Ask us anything about courses or membership.",
+            "link": { "title": "Plan a visit", "url": "/visit/" }
+          }
+        }
+      ]
+    },
+    {
+      "uri": "/visit/",
+      "slug": "visit",
+      "title": "Visit",
+      "seo": {
+        "title": "Visit and contact",
+        "description": "Find Kiln Studio on Wharf Lane in Bristol, check opening hours, or send us a question about workshops."
+      },
+      "blocks": [
+        {
+          "name": "acf/page-header",
+          "fields": {
+            "heading": "Visit the studio",
+            "intro": "We're a five-minute walk from Temple Meads station, on the ground floor with step-free access."
+          }
+        },
+        {
+          "name": "acf/contact-form",
+          "anchor": "enquire",
+          "fields": {
+            "heading": "Ask us a question",
+            "intro": "We reply within two working days. To book a place, tell us which workshop you'd like."
+          }
+        }
+      ]
+    }
+  ],
+  "workshops": [
+    {
+      "slug": "wheel-throwing-for-beginners",
+      "title": "Wheel throwing for beginners",
+      "image": "wheel",
+      "level": "beginner",
+      "duration": "Six Tuesday evenings, 7–9.30pm",
+      "price": "£240",
+      "summary": "Learn to centre, open and pull up the walls of a pot. By the end you'll throw cylinders and bowls and trim their feet.",
+      "seo": {
+        "title": "Wheel throwing for beginners",
+        "description": "A six-week beginner course on the potter's wheel in Bristol. Clay, glazes and firing included."
+      },
+      "blocks": [
+        {
+          "name": "acf/rich-text",
+          "fields": {
+            "heading": "What you'll learn",
+            "content": "<ul><li>Wedging and centring clay on the wheel</li><li>Throwing cylinders, bowls and a simple jug</li><li>Trimming a foot ring once pots are leather-hard</li><li>Glazing your best pieces in the final session</li></ul><p>Each week builds on the last, so try to come to all six sessions.</p>"
+          }
+        },
+        {
+          "name": "acf/faq",
+          "fields": {
+            "heading": "Questions about this course",
+            "items": [
+              {
+                "question": "How many pots will I take home?",
+                "answer": "<p>Most people keep four to eight finished pieces. You'll throw many more, but part of learning is choosing which ones to fire.</p>"
+              },
+              {
+                "question": "Is there homework?",
+                "answer": "<p>No, but members' practice sessions on Sunday afternoons are open to anyone on a course, free of charge.</p>"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "handbuilding-coil-and-slab",
+      "title": "Handbuilding: coil and slab",
+      "image": "coil",
+      "level": "beginner",
+      "duration": "Six Thursday mornings, 10am–12.30pm",
+      "price": "£220",
+      "summary": "Build pots without a wheel. Pinch, coil and slab techniques for planters, plates and lidded boxes.",
+      "seo": {
+        "title": "Handbuilding: coil and slab",
+        "description": "A six-week handbuilding course in Bristol covering pinch, coil and slab techniques."
+      },
+      "blocks": [
+        {
+          "name": "acf/rich-text",
+          "fields": {
+            "heading": "What you'll learn",
+            "content": "<ul><li>Pinch pots and how to join them</li><li>Building tall forms from coils</li><li>Rolling, cutting and assembling slabs</li><li>Texture, slip decoration and glazing</li></ul><p>A good choice if you'd like to make larger or more sculptural pieces.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "glazing-and-surface",
+      "title": "Glazing and surface",
+      "image": "glaze",
+      "level": "intermediate",
+      "duration": "One Saturday, 10am–4pm",
+      "price": "£95",
+      "summary": "For people who already make pots. Mix and test glazes, layer them, and learn why they run, crawl or pinhole.",
+      "seo": {
+        "title": "Glazing and surface",
+        "description": "A one-day glazing workshop in Bristol for people who already make pots."
+      },
+      "blocks": [
+        {
+          "name": "acf/rich-text",
+          "fields": {
+            "heading": "What to bring",
+            "content": "<p>Bring up to six bisque-fired pots of your own, or use the test tiles we provide. Lunch isn't included, but there are good cafés on Wharf Lane.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "taster-session",
+      "title": "Taster session",
+      "image": "taster",
+      "level": "all-levels",
+      "duration": "Two hours, most weekends",
+      "price": "£45",
+      "summary": "Try the wheel and handbuilding in one relaxed session. If you book a six-week course afterwards, we take £45 off.",
+      "seo": {
+        "title": "Taster session",
+        "description": "A two-hour introduction to pottery in Bristol. Try the wheel and handbuilding in one session."
+      },
+      "blocks": [
+        {
+          "name": "acf/rich-text",
+          "fields": {
+            "heading": "How it works",
+            "content": "<p>You'll spend an hour on the wheel and an hour handbuilding, with a teacher for every four people. We fire your two favourite pieces and email you when they're ready to collect.</p>"
+          }
+        },
+        {
+          "name": "acf/cta",
+          "fields": {
+            "heading": "Pick a date",
+            "text": "Taster sessions run most Saturdays and Sundays. Send us a message with the dates that suit you.",
+            "link": { "title": "Ask about dates", "url": "/visit/#enquire" }
+          }
+        }
+      ]
+    }
+  ]
+}

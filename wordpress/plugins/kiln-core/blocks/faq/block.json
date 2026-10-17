@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "acf/faq",
+    "title": "FAQ",
+    "description": "Questions and answers.",
+    "category": "kiln",
+    "icon": "editor-help",
+    "keywords": [
+        "questions",
+        "answers"
+    ],
+    "acf": {
+        "blockVersion": 3,
+        "mode": "preview",
+        "renderCallback": "kiln_render_block_preview"
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "anchor": true
+    }
+}

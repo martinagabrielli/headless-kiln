@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "acf/testimonials",
+    "title": "Testimonials",
+    "description": "Quotes from students.",
+    "category": "kiln",
+    "icon": "format-quote",
+    "keywords": [
+        "quotes",
+        "reviews"
+    ],
+    "acf": {
+        "blockVersion": 3,
+        "mode": "preview",
+        "renderCallback": "kiln_render_block_preview"
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "anchor": true
+    }
+}

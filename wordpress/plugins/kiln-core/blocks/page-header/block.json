@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "acf/page-header",
+    "title": "Page Header",
+    "description": "Title and introduction for the top of a page.",
+    "category": "kiln",
+    "icon": "heading",
+    "keywords": [
+        "header",
+        "title"
+    ],
+    "acf": {
+        "blockVersion": 3,
+        "mode": "preview",
+        "renderCallback": "kiln_render_block_preview"
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "anchor": true
+    }
+}
